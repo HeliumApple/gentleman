@@ -1723,7 +1723,8 @@
         .field-choice-icon,
         .static-choice-icon,
         .container-choice-icon,
-        .dynamic-choice-icon {
+        .dynamic-choice-icon,
+        .template-choice-icon {
             flex-direction: column; align-items: center; justify-content: center;
             width: 20px;
             height: 20px;
@@ -1740,6 +1741,8 @@
         .container-choice-icon { background-color: #53b04b; }
 
         .dynamic-choice-icon { background-color: #5F4B8B; }
+
+        .template-choice-icon { background-color: #ffd300;}
 
     .list-choice__selection {
         margin-right: 6px;

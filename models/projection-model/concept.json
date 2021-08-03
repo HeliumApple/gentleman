@@ -53,6 +53,8 @@
                             { "name": "binary-field" },
                             { "name": "choice-field" },
                             { "name": "list-field" },
+                            { "name": "svg-field" },
+                            { "name": "interactive-svg" },
                             { "name": "container" }
                         ]
                     },
@@ -110,7 +112,11 @@
                                 { "name": "image-static" },
                                 { "name": "link-static" },
                                 { "name": "attribute element" },
-                                { "name": "plink-static" }
+                                { "name": "plink-static" },
+                                { "name": "svg-field" },
+                                { "name": "interactive-svg" },
+                                { "name": "dynamic-svg" },
+                                { "name": "static-svg"}
                             ]
                         }
                     }
@@ -595,8 +601,395 @@
                 { "name": "elementType", "type": "string", "value": "table" }
             ]
         },
-   
-
+        {
+            "name": "svg-field",
+            "nature": "concrete",
+            "prototype": "field",
+            "attributes":[
+                {
+                    "name": "content",
+                    "target":{
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "p-link",
+                    "target":{
+                        "name": "svg-link"
+                    },
+                    "required": false
+                },
+                {
+                    "name": "attributes",
+                    "target":{
+                        "name": "set",
+                        "accept":
+                            {"name": "svg-attribute"}
+                        
+                    }
+                }
+            ],
+            "properties": [
+                { "name": "contentType", "type": "string", "value": "field" },
+                { "name": "elementType", "type": "string", "value": "svg" }
+            ]
+        },
+        {
+            "name": "svg-link",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "tag",
+                    "target":{
+                        "name": "tag"
+                    }
+                },
+                {
+                    "name": "marker",
+                    "target":{
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "svg-attribute",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "value",
+                    "target": {
+                        "name": "attribute",
+                        "src": [
+                            { 
+                                "type": "reference", 
+                                "target": {
+                                    "name": "attributes",
+                                    "rel": "children",
+                                    "value": "name",
+                                    "source": {
+                                        "type": "reference",
+                                        "rel": "parent",
+                                        "name": "projection",
+                                        "value": {
+                                            "type": "reference",
+                                            "rel": "children",
+                                            "name": "concept",
+                                            "value": {
+                                                "type": "attribute",
+                                                "name": "name"
+                                            }
+                                        }
+                                    }
+                                },
+                                "source": {
+                                    "type": "resource",
+                                    "name": "metamodel"
+                                } 
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "placement",
+                    "target":{
+                        "name": "placement",
+                        "accept":[
+                            { "name": "in-place" },
+                            { "name": "link-place" }
+                        ],
+                        "default": "in-place"                        
+                    }
+                }
+            ]
+        },
+        {
+            "name": "placement",
+            "nature": "prototype"
+        },
+        {
+            "name": "in-place",
+            "prototype": "placement",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "marker",
+                    "target":{
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "tag",
+                    "target":{
+                        "name": "tag"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "link-place",
+            "prototype": "placement",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "static-dependents",
+                    "target": {
+                        "name": "set",
+                        "accept":
+                            { "name": "external-svg" }
+                    }
+                },
+                {
+                    "name": "dynamic-dependents",
+                    "target": {
+                        "name": "set",
+                        "accept":{
+                            "name": "external-svg"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "external-svg",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "tag",
+                    "target":{
+                        "name": "tag"
+                    }
+                },
+                {
+                    "name": "marker",
+                    "target":{
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "interactive-svg",
+            "nature": "concrete",
+            "prototype": "field",
+            "attributes":[
+                {
+                    "name": "content",
+                    "target":{
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "field",
+                    "target": {
+                        "name": "external-svg"
+                    }
+                },
+                {
+                    "name": "static-dependents",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "external-svg"
+                        }
+                    }
+                },
+                {
+                    "name": "dynamic-dependents",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "external-svg"
+                        }
+                    }
+                },
+                {
+                    "name": "marker",
+                    "target": "string"
+                },
+                {
+                    "name": "markers",
+                    "target": {
+                        "name": "set",
+                        "accept":{
+                            "name": "marker"
+                        }
+                    }
+                },
+                {
+                    "name": "self",
+                    "target": {
+                        "name": "set",
+                        "accept":{
+                            "name": "pure-marker"
+                        }
+                    }
+                }
+            ],
+            "properties": [
+                { "name": "contentType", "type": "string", "value": "field" },
+                { "name": "elementType", "type": "string", "value": "interactive" }
+            ]
+        },
+        {
+            "name": "static-svg",
+            "nature": "concrete",
+            "prototype": "field",
+            "attributes":[
+                {
+                    "name": "content",
+                    "target":{
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "model-value",
+                    "target": "string"
+                }
+            ],
+            "properties": [
+                { "name": "contentType", "type": "string", "value": "field" },
+                { "name": "elementType", "type": "string", "value": "static" }
+            ]
+        },
+        {
+            "name": "dynamic-svg",
+            "nature": "concrete",
+            "prototype": "field",
+            "attributes":[
+                {
+                    "name": "content",
+                    "target":{
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "marker",
+                    "target": "string"
+                },
+                {
+                    "name": "markers",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "marker"
+                        }
+                    }
+                },
+                {
+                    "name": "self",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "pure-marker"
+                        }
+                    }
+                }
+            ],
+            "properties": [
+                { "name": "contentType", "type": "string", "value": "field" },
+                { "name": "elementType", "type": "string", "value": "dynamic" }
+            ]
+        },
+        {
+            "name": "marker",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "model-value",
+                    "target": "string"  
+                },
+                {
+                    "name": "aliases",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "alias"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "pure-marker",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "property",
+                    "target": "string"
+                }
+            ]
+        },
+        {
+            "name": "alias",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "marker-value",
+                    "target":"string"
+                },
+                {
+                    "name": "properties",
+                    "target": "svg-properties"
+                }
+            ]
+        },
+        {
+            "name": "svg-properties",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "bold",
+                    "target": "boolean",
+                    "default": false
+                },
+                {
+                    "name": "italic",
+                    "target": "boolean",
+                    "default": false
+                },
+                {
+                    "name": "underline",
+                    "target": "boolean",
+                    "default": false
+                },
+                {
+                    "name": "text-content",
+                    "target": "string"
+                },
+                {
+                    "name": "color",
+                    "target": "hex-color"
+                },
+                {
+                    "name": "size",
+                    "target": "size"
+                },
+                {
+                    "name": "others",
+                    "target":{
+                        "name": "set",
+                        "accept":{
+                            "name": "other"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "other",
+            "nature":"concrete",
+            "attributes":[
+                {
+                    "name": "property",
+                    "target": "string"
+                },
+                {
+                    "name": "value",
+                    "target": "string"
+                }
+            ]
+        },
         {
             "name": "template reference",
             "nature": "concrete",

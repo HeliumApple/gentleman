@@ -6,6 +6,9 @@
         },
         {
             "name": "projection"
+        },
+        {
+            "name": "template"
         }
     ]
 }
