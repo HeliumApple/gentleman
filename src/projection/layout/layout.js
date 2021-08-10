@@ -137,10 +137,12 @@ export const Layout = {
      * @param {HTMLElement} target element
      */
     enterHandler(target) {
+        console.log("Enter Pressed");
         let focusableElement = getElement('[tabindex]:not([tabindex="-1"])', this.container);
         let child = this.environment.resolveElement(focusableElement);
 
         if (isNullOrUndefined(child)) {
+            console.log(false);
             return false;
         }
 

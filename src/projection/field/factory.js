@@ -4,6 +4,10 @@ import { ChoiceField } from './choice-field.js';
 import { ListField } from './list-field.js';
 import { TableField } from './table-field.js';
 import { TextField } from './text-field.js';
+import { SVGField } from './svg-field.js';
+import { InteractiveField } from './interactive-field.js';
+import { StaticField } from './static-field.js';
+import { DynamicField } from './dynamic-field.js';
 
 
 const Handler = {
@@ -51,6 +55,46 @@ const Handler = {
         object: { value: "field" },
         name: { value: "text-field" },
         type: { value: "text" },
+        id: { value: nextId() },
+        model: { value: model },
+        schema: { value: schema },
+        projection: { value: projection },
+        source: { value: projection.concept },
+    }),
+    'svg': (model, schema, projection) => Object.create(SVGField, {
+        object: { value: "field" },
+        name: { value: "svg-field" },
+        type: { value: "svg" },
+        id: { value: nextId() },
+        model: { value: model },
+        schema: { value: schema },
+        projection: { value: projection },
+        source: { value: projection.concept },
+    }),
+    'interactive': (model, schema, projection) => Object.create(InteractiveField, {
+        object: { value: "field" },
+        name: { value: "interactive-field" },
+        type: { value: "interactive" },
+        id: { value: nextId() },
+        model: { value: model },
+        schema: { value: schema },
+        projection: { value: projection },
+        source: { value: projection.concept },
+    }),
+    'static': (model, schema, projection) => Object.create(StaticField, {
+        object: { value: "field" },
+        name: { value: "static-field" },
+        type: { value: "static" },
+        id: { value: nextId() },
+        model: { value: model },
+        schema: { value: schema },
+        projection: { value: projection },
+        source: { value: projection.concept },
+    }),
+    'dynamic': (model, schema, projection) => Object.create(DynamicField, {
+        object: { value: "field" },
+        name: { value: "dynamic-field" },
+        type: { value: "dynamic" },
         id: { value: nextId() },
         model: { value: model },
         schema: { value: schema },

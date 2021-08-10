@@ -651,6 +651,7 @@ export const Editor = {
 
                 let targetProjection = getElement(`.projection[data-concept="${concept.id}"]`, this.body);
                 if (targetProjection) {
+
                     targetProjection.focus();
                 }
             }
@@ -2012,12 +2013,15 @@ export const Editor = {
                     break;
                 case Key.enter:
                     if (this.activeElement) {
+                        console.log("First");
+                        console.log(this.activeElement);
                         const handled = this.activeElement.enterHandler(target) === true;
 
                         if (handled) {
                             event.preventDefault();
                         }
                     } else if (nature === "concept-container") {
+                        console.log(this.activeInstance);
                         this.activeInstance.projection.focus();
                     } else if (nature === "editable") {
                         target.blur();
@@ -2032,13 +2036,17 @@ export const Editor = {
                 case Key.escape:
                     if (this.activeElement) {
                         const handled = this.activeElement.escapeHandler(target) === true;
+                        console.log("Handled?");
+                        console.log(handled);
 
                         if (handled) {
                             event.preventDefault();
                         } else {
                             // this.filter.close();
                             let ancestor = findAncestor(target, (el) => el.tabIndex === 0);
+                            console.log(ancestor);
                             ancestor.focus();
+                            console.log("afterAncestor");
                         }
                     }
 
@@ -2053,13 +2061,18 @@ export const Editor = {
                 case Key.right_arrow:
                 case Key.down_arrow:
                 case Key.left_arrow:
+                    console.log("Arrow Activated");
+                    console.log(event.key);
                     if (this.activeElement && ![Key.ctrl, Key.shift, Key.alt].includes(lastKey)) {
                         const handled = this.activeElement.arrowHandler(dir[event.key], target) === true;
+
+                        console.log(handled);
 
                         if (handled) {
                             event.preventDefault();
                         }
                     } else if (nature === "concept-container" && ![Key.ctrl, Key.shift, Key.alt].includes(lastKey)) {
+                        console.log("Second time?");
                         let closestInstance = getClosest(target, dir[event.key], this.instanceSection);
 
                         if (!isHTMLElement(closestInstance)) {
@@ -2162,6 +2175,7 @@ export const Editor = {
                 case Key.down_arrow:
                 case Key.right_arrow:
                 case Key.left_arrow:
+                    console.log("Arrow Activated 2");
                     if (this.activeElement && lastKey === Key.ctrl) {
                         const handled = this.activeElement._arrowHandler(dir[event.key], target) === true;
 
@@ -2199,6 +2213,7 @@ export const Editor = {
 
             if (element) {
                 if (this.activeElement && this.activeElement !== element) {
+                    console.log("itFocusesout!");
                     this.activeElement.focusOut();
                     this.activeElement = null;
                 }
@@ -2207,6 +2222,7 @@ export const Editor = {
                 this.activeElement.focusIn(target);
             } else {
                 if (this.activeElement) {
+                    console.log("itFocusesout");
                     this.activeElement.focusOut(target);
                 }
 

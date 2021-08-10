@@ -157,6 +157,7 @@ const BaseTextField = {
     },
 
     focus(target) {
+        console.log("It goes there");
         this.input.focus();
 
         return this;
@@ -479,8 +480,11 @@ const BaseTextField = {
             let parent = findAncestor(target, (el) => el.tabIndex === 0);
             let element = this.environment.resolveElement(parent);
 
+            console.log(element);
+
             if (element) {
                 element.focus(parent);
+                return true;
             }
 
             return false;

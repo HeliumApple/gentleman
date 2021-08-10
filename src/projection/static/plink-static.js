@@ -33,6 +33,7 @@ const BaseProjectionLinkStatic = {
 
         const { help, style, content } = this.schema;
 
+
         if (!isHTMLElement(this.element)) {
             this.element = createButton({
                 class: ["btn", "static"],
@@ -55,6 +56,7 @@ const BaseProjectionLinkStatic = {
 
             fragment.append(content);
         });
+
 
         if (!isNullOrUndefined(help)) {
             this.element.title = help;

@@ -755,9 +755,9 @@
             "nature": "concrete",
             "attributes":[
                 {
-                    "name": "tag",
+                    "name": "template",
                     "target":{
-                        "name": "tag"
+                        "name": "string"
                     }
                 },
                 {
@@ -782,7 +782,7 @@
                 {
                     "name": "field",
                     "target": {
-                        "name": "external-svg"
+                        "name": "source-svg"
                     }
                 },
                 {
@@ -829,6 +829,24 @@
             "properties": [
                 { "name": "contentType", "type": "string", "value": "field" },
                 { "name": "elementType", "type": "string", "value": "interactive" }
+            ]
+        },
+        {
+            "name": "source-svg",
+            "nature": "concrete",
+            "attributes":[
+                {
+                    "name": "tag",
+                    "target": {
+                        "name": "tag"
+                    }
+                },
+                {
+                    "name": "marker",
+                    "target": {
+                        "name": "string"
+                    }
+                }
             ]
         },
         {

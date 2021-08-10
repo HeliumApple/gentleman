@@ -2039,6 +2039,27 @@
                 "disposition":[
                     {
                         "type": "attribute",
+                        "name": "template",
+                        "tag": "label-string"
+                    },
+                    {
+                        "type": "attribute",
+                        "name": "marker",
+                        "tag": "label-string"
+                    }
+                ]
+            }
+        },
+        {
+            "concept": { "name": "source-svg" },
+            "tags":["list-item"],
+            "type": "layout",
+            "projection":{
+                "type": "stack",
+                "orientation": "vertical",
+                "disposition":[
+                    {
+                        "type": "attribute",
                         "name": "tag",
                         "tag": "label-string"
                     },

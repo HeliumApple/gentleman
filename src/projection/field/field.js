@@ -81,6 +81,7 @@ const BaseField = {
         return this;
     },
     focus(target) {
+
         this.element.contentEditable = false;
         this.element.focus();
         this.focused = true;

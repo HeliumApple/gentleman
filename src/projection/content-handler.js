@@ -1,4 +1,4 @@
-import { valOrDefault, createDocFragment, createI, isHTMLElement, htmlToElement, createButton, } from "zenkai";
+import { valOrDefault, createDocFragment, createI, isHTMLElement, htmlToElement, createButton, isNullOrUndefined, isEmpty } from "zenkai";
 import { LayoutFactory } from "./layout/index.js";
 import { FieldFactory } from "./field/index.js";
 import { StaticFactory } from "./static/index.js";
@@ -90,6 +90,43 @@ function AttributeHandler(schema, concept) {
     return attr.element;
 }
 
+function SVGAttributeHandler(schema, concept){
+    const { value, placement } = schema;
+
+    const { target, description } = concept.getAttributeByName(value);
+
+    let projection = this.projection.model.createProjection(target, placement.tag).init();
+
+    projection.parent = this.projection;
+
+    projection.render();
+
+    if(!isNullOrUndefined(target.value)){
+        projection.element.initValue(target.value);
+    }
+
+    projection.element.parent = this;
+
+    let attributeName = value[0].toUpperCase() + value.substring(1);
+
+    projection.element.attributeName = attributeName;
+
+    return projection.element;
+}
+
+function ExternalHandler(schema, target){
+
+    let projection = this.projection.model.createProjection(target, schema.tag).init();
+
+    projection.parent = this.projection;
+
+    projection.render();
+
+    projection.element.parent = this;
+
+    return projection.element;
+}
+
 
 export function ContentHandler(schema, concept, args = {}) {
     const contentConcept = valOrDefault(concept, this.projection.concept);
@@ -126,10 +163,19 @@ export function ContentHandler(schema, concept, args = {}) {
         return ContentHandler.call(this, schema.dynamic, concept, args);
     } else if (schema.type === "attribute") {
         return AttributeHandler.call(this, schema, contentConcept);
-    } else if (schema.type === "template") {
+    } else if (schema.type === "svg-attribute"){
+        return SVGAttributeHandler.call(this, schema, contentConcept)
+    } else if(schema.type === "external"){
+        return ExternalHandler.call(this, schema, contentConcept);
+    }else if (schema.type === "template") {
         let name = schema.name;
 
-        if (name.type === "param") {
+        if(isNullOrUndefined(name)){
+            name = schema.template;
+        }
+
+
+        if ((!isNullOrUndefined(name.type)) && name.type === "param") {
             name = this.projection.getParam(name.name);
         }
 
@@ -145,10 +191,18 @@ export function ContentHandler(schema, concept, args = {}) {
         }
 
         const fragment = createDocFragment();
+        let content;
         template.content.forEach(element => {
+            content = ContentHandler.call(this, element, concept, args);
+            if(!isHTMLElement(content)){
+                return content;
+            }
             fragment.append(ContentHandler.call(this, element, concept, args));
         });
 
+        if(isEmpty(fragment.childNodes)){
+            return content;
+        }
         return fragment;
     } else if (schema.type === "projection") {
         const { tag, style, required = false } = schema;

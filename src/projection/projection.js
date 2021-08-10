@@ -300,6 +300,8 @@ const Projection = {
         return false;
     },
     focus() {
+        console.log("In the projection");
+        console.log(this.element);
         this.element.focus();
     },
 
@@ -418,6 +420,7 @@ const Projection = {
         this.index = valOrDefault(index, (this.index + 1) % this.schema.length);
         let container = this.getContainer();
 
+
         if (!isHTMLElement(container)) {
             this.params = [];
             container = this.render();
@@ -427,6 +430,10 @@ const Projection = {
 
         this.element = this.resolveElement(container);
 
+        if(this.element.type === "svg"){
+            this.element.update();
+        }
+
         // if (this.parent) {
         //     this.parent.update("view.changed", container, this);
         // }
@@ -434,6 +441,25 @@ const Projection = {
         this.focus();
 
         return this;
+    },
+
+    getInformations(index){
+
+        let save = this.index;
+
+        this.index = valOrDefault(index, (this.index + 1) % this.schema.length);
+
+        let container = this.getContainer();
+
+        if (!isHTMLElement(container)) {
+            this.params = [];
+            container = this.render();
+        }
+
+        this.index = save;
+
+        return this.resolveElement(container);
+
     },
 
     export() {
