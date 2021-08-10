@@ -544,10 +544,14 @@ const BaseTextField = {
             return false;
         }
 
+        console.log(target);
+
         const { parentElement } = target;
 
         const exit = () => {
             if (this.parent) {
+                console.log("ParentHandler");
+                console.log(this.parent);
                 return this.parent.arrowHandler(dir, this.element);
             }
 
@@ -559,6 +563,8 @@ const BaseTextField = {
 
         if (isHTMLElement(item)) {
             let closestItem = getClosest(item, dir, this.choice);
+            console.log("closestItem");
+            console.log(closestItem);
 
             if (!isHTMLElement(closestItem)) {
                 return this.arrowHandler(dir, this.choice);
@@ -606,7 +612,9 @@ const BaseTextField = {
         if (dir === "up") {
             element = getBottomElement(this.choice);
         } else if (dir === "down") {
+            console.log("Dir = down");
             element = getTopElement(this.choice);
+            console.log(element);
         } else if (dir === "left") {
             element = getRightElement(this.choice);
         } else if (dir === "right") {

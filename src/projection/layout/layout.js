@@ -215,6 +215,8 @@ export const Layout = {
         }
 
         let closestElement = getClosest(target, dir, this.container);
+        console.log("Closest element layout");
+        console.log(closestElement);
 
         if (!isHTMLElement(closestElement)) {
             if (isNullOrUndefined(this.parent) || this.parent.object !== "layout") {
@@ -224,6 +226,7 @@ export const Layout = {
             return this.parent.arrowHandler(dir, this.container);
         }
 
+        console.log("Resolving the element");
         let element = this.environment.resolveElement(closestElement);
         if (element) {
             isFunction(element.navigate) ? element.navigate(dir) : element.focus();
