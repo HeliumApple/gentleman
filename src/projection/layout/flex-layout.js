@@ -191,7 +191,6 @@ export const BaseFlexLayout = {
 
     focus(element) {
         if (this.focusable) {
-            console.log(this.container);
             this.container.focus();
         } else {
             let focusableElement = getElement('[tabindex]:not([tabindex="-1"])', this.container);

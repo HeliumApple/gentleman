@@ -157,7 +157,6 @@ const BaseTextField = {
     },
 
     focus(target) {
-        console.log("It goes there");
         this.input.focus();
 
         return this;
@@ -480,8 +479,6 @@ const BaseTextField = {
             let parent = findAncestor(target, (el) => el.tabIndex === 0);
             let element = this.environment.resolveElement(parent);
 
-            console.log("Ancestor");
-            console.log(element);
 
             if (element) {
                 element.focus(parent);
@@ -541,18 +538,17 @@ const BaseTextField = {
      * @param {HTMLElement} target 
      */
     arrowHandler(dir, target) {
+
         if (!isHTMLElement(target)) {
             return false;
         }
 
-        console.log(target);
 
         const { parentElement } = target;
 
         const exit = () => {
+
             if (this.parent) {
-                console.log("ParentHandler");
-                console.log(this.parent);
                 return this.parent.arrowHandler(dir, this.element);
             }
 
@@ -562,10 +558,11 @@ const BaseTextField = {
         // gets the parent list item if target is a children
         let item = getItem.call(this, target);
 
+    
+
         if (isHTMLElement(item)) {
+
             let closestItem = getClosest(item, dir, this.choice);
-            console.log("closestItem");
-            console.log(closestItem);
 
             if (!isHTMLElement(closestItem)) {
                 return this.arrowHandler(dir, this.choice);
@@ -590,7 +587,6 @@ const BaseTextField = {
                     return false;
                 }
             }
-
             element = getClosest(target, dir, this.element, false);
         } else if (dir === "left") {
             if (target === this.input) {
@@ -613,9 +609,7 @@ const BaseTextField = {
         if (dir === "up") {
             element = getBottomElement(this.choice);
         } else if (dir === "down") {
-            console.log("Dir = down");
             element = getTopElement(this.choice);
-            console.log(element);
         } else if (dir === "left") {
             element = getRightElement(this.choice);
         } else if (dir === "right") {

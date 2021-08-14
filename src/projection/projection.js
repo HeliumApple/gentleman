@@ -300,16 +300,13 @@ const Projection = {
         return false;
     },
     focus() {
-        console.log("In the projection");
-        console.log(this.element);
         this.element.focus();
     },
 
     render() {
         const schema = this.getSchema();
 
-        console.log("Looking at the schema");
-        console.log(this);
+
 
         const { type, projection, content } = schema;
 
@@ -453,8 +450,6 @@ const Projection = {
         this.index = valOrDefault(index, (this.index + 1) % this.schema.length);
 
         let container = this.getContainer();
-
-        console.log(container);
 
         if (!isHTMLElement(container)) {
             this.params = [];

@@ -81,6 +81,7 @@ const border = {
  * @param {string} dir 
  */
 function isClosestTo(source, container, dir) {
+    console.log(source);
     const sourceStyle = window.getComputedStyle(source);
     const containerStyle = window.getComputedStyle(container);
 
@@ -133,6 +134,21 @@ export function getClosest(source, dir, container, relative) {
     return null;
 }
 
+export function getClosestSVG(source, dir, container, relative){
+    if (dir === "up") {
+        return getElementTopSVG(source, container, relative);
+    } else if (dir === "down") {
+        return getElementBottomSVG(source, container, relative);
+    } else if (dir === "left") {
+        return getElementLeftSVG(source, container, relative);
+    } else if (dir === "right") {
+        return getElementRightSVG(source, container, relative);
+    }
+
+    console.error("unknown direction", dir);
+
+    return null;
+}
 
 /**
  * Get closest element above a source element inside an optional container
@@ -141,9 +157,14 @@ export function getClosest(source, dir, container, relative) {
  * @param {boolean} relative 
  */
 export function getElementTop(source, container, relative = true) {
+    console.log("TopClose");
     const items = container.children;
 
     const { top: top1, left: left1 } = source.getBoundingClientRect();
+
+    console.log(top1);
+    console.log(left1);
+    console.log(container);
 
     if (relative && isClosestTo(source, container, "top")) {
         return null;
@@ -162,6 +183,53 @@ export function getElementTop(source, container, relative = true) {
         }
 
         const { bottom: bottom2, left: left2 } = item.getBoundingClientRect();
+
+        let $vdist = Math.abs(top1 - bottom2);
+        let $hdist = Math.abs(left1 - left2);
+
+        if (top1 >= (bottom2 - 1) && ($vdist < vdist || ($vdist === vdist && $hdist < hdist))) {
+            closest = item;
+            vdist = $vdist;
+            hdist = $hdist;
+        }
+    }
+
+    return closest;
+}
+
+
+/**
+ * Get closest element above a source element inside an optional container
+ * @param {HTMLElement} source 
+ * @param {HTMLElement} container 
+ * @param {boolean} relative 
+ */
+ export function getElementTopSVG(source, container, relative = true) {
+    console.log("TopCloseSVG");
+    const items = container.deciders;
+
+    console.log(items);
+
+    const { top: top1, left: left1 } = source.getBoundingClientRect();
+
+
+    if (relative && isClosestTo(source, container, "top")) {
+        return null;
+    }
+
+    let closest = null;
+
+    let vdist = 99999;
+    let hdist = 99999;
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        if (isHidden(item.field) || item.field.classList.contains("badge") || item.field === source) {
+            continue;
+        }
+
+        const { bottom: bottom2, left: left2 } = item.field.getBoundingClientRect();
 
         let $vdist = Math.abs(top1 - bottom2);
         let $hdist = Math.abs(left1 - left2);
@@ -217,6 +285,47 @@ export function getElementLeft(source, container, relative = true) {
     return closest;
 }
 
+
+/**
+ * Get closest element on the left of a source element inside an optional container
+ * @param {HTMLElement} source 
+ * @param {HTMLElement} container 
+ */
+ export function getElementLeftSVG(source, container, relative = true) {
+    const items = container.children;
+
+    const { top: top1, left: left1 } = source.getBoundingClientRect();
+
+    if (relative && isClosestTo(source, container, "left")) {
+        return null;
+    }
+
+    let closest = null;
+
+    let vdist = 99999;
+    let hdist = 99999;
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        if (isHidden(item) || item.classList.contains("badge") || item === source) {
+            continue;
+        }
+
+        const { top: top2, right: right2 } = item.getBoundingClientRect();
+
+        let $vdist = Math.abs(top1 - top2);
+        let $hdist = Math.abs(left1 - right2);
+
+        if (left1 >= (right2 - 1) && ($hdist < hdist || ($hdist === hdist && $vdist < vdist))) {
+            closest = item;
+            vdist = $vdist;
+            hdist = $hdist;
+        }
+    }
+
+    return closest;
+}
 /**
  * Get closest element on the right of a source element inside an optional container
  * @param {HTMLElement} source 
@@ -259,11 +368,58 @@ export function getElementRight(source, container, relative = true) {
 }
 
 /**
+ * Get closest element on the right of a source element inside an optional container
+ * @param {HTMLElement} source 
+ * @param {HTMLElement} container 
+ */
+ export function getElementRightSVG(source, container, relative = true) {
+    const items = container.deciders;
+
+    const top = source.getAttribute("y");
+    const right = source.getAttribute("x") + source.getAttribute("width");
+
+    if (relative && isClosestTo(source, container, "bottom")) {
+        return null;
+    }
+
+
+    let closest = null;
+
+    let vdist = 99999;
+    let hdist = 99999;
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i].foreign;
+
+        if (item === source) {
+            continue;
+        }
+
+        const top2 =  item.getAttribute("x");
+        const left =  item.getAttribute("y");
+        
+        let $vdist = Math.abs(top - top2);
+        let $hdist = Math.abs(right - left);
+
+
+        if (Number(right) <= (Number(left) + 1) && ($vdist < vdist || ($vdist === vdist && $hdist < hdist))) {
+            console.log("New closest");
+            closest = items[i];
+            vdist = $vdist;
+            hdist = $hdist;
+        }
+    }
+
+    return closest;
+}
+
+/**
  * Get closest element below a source element inside an optional container
  * @param {HTMLElement} source 
  * @param {HTMLElement} container 
  */
 export function getElementBottom(source, container, relative = true) {
+    console.log("Bottom");
     const items = container.children;
 
     const { bottom: bottom1, left: left1 } = source.getBoundingClientRect();
@@ -271,7 +427,7 @@ export function getElementBottom(source, container, relative = true) {
     if (relative && isClosestTo(source, container, "bottom")) {
         return null;
     }
-
+    console.log("After");
     let closest = null;
 
     let vdist = 99999;
@@ -291,6 +447,52 @@ export function getElementBottom(source, container, relative = true) {
 
         if (bottom1 <= (top2 + 1) && ($vdist < vdist || ($vdist === vdist && $hdist < hdist))) {
             closest = item;
+            vdist = $vdist;
+            hdist = $hdist;
+        }
+    }
+
+    return closest;
+}
+
+/**
+ * Get closest element below a source element inside an optional container
+ * @param {HTMLElement} source 
+ * @param {HTMLElement} container 
+ */
+ export function getElementBottomSVG(source, container, relative = true) {
+    const items = container.deciders;
+
+    const bottom = source.getAttribute("y") + source.getAttribute("height");
+    const left1 = source.getAttribute("x");
+
+    if (relative && isClosestTo(source, container, "bottom")) {
+        return null;
+    }
+
+
+    let closest = null;
+
+    let vdist = 99999;
+    let hdist = 99999;
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i].foreign;
+
+        if (item === source) {
+            continue;
+        }
+
+        const top =  item.getAttribute("x");
+        const left =  item.getAttribute("y");
+        
+        let $vdist = Math.abs(bottom - top);
+        let $hdist = Math.abs(left1 - left);
+
+
+        if (Number(bottom) <= (Number(top) + 1) && ($vdist < vdist || ($vdist === vdist && $hdist < hdist))) {
+            console.log("New closest");
+            closest = items[i];
             vdist = $vdist;
             hdist = $hdist;
         }

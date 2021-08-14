@@ -137,12 +137,10 @@ export const Layout = {
      * @param {HTMLElement} target element
      */
     enterHandler(target) {
-        console.log("Enter Pressed");
         let focusableElement = getElement('[tabindex]:not([tabindex="-1"])', this.container);
         let child = this.environment.resolveElement(focusableElement);
 
         if (isNullOrUndefined(child)) {
-            console.log(false);
             return false;
         }
 
@@ -215,8 +213,7 @@ export const Layout = {
         }
 
         let closestElement = getClosest(target, dir, this.container);
-        console.log("Closest element layout");
-        console.log(closestElement);
+
 
         if (!isHTMLElement(closestElement)) {
             if (isNullOrUndefined(this.parent) || this.parent.object !== "layout") {
@@ -226,7 +223,6 @@ export const Layout = {
             return this.parent.arrowHandler(dir, this.container);
         }
 
-        console.log("Resolving the element");
         let element = this.environment.resolveElement(closestElement);
         if (element) {
             isFunction(element.navigate) ? element.navigate(dir) : element.focus();
