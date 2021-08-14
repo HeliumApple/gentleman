@@ -480,6 +480,7 @@ const BaseTextField = {
             let parent = findAncestor(target, (el) => el.tabIndex === 0);
             let element = this.environment.resolveElement(parent);
 
+            console.log("Ancestor");
             console.log(element);
 
             if (element) {
