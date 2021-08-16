@@ -70,6 +70,8 @@ const BaseSVGField = {
             let altis = this.projection.getInformations(this.link);
             this.projection.element = this;
             this.informations = altis.informations;
+            console.log("Information");
+            console.log(this.informations.get("name"));
 
         }
 
@@ -118,27 +120,13 @@ const BaseSVGField = {
                     current.name = element.value;
 
 
-                    current.field = this.informations.get(element.value).element;
+                    current.field = this.informations.get(element.value);
 
-                    switch(current.field.getAttribute("data-view")){
-                        case "text":
-                            current.value = current.field.getAttribute("data-value");
-                            current.info = "data-value";
-                            break;
-                        case "binary":
-                            current.info = "data-state";
-                            if(current.field.getAttribute("data-state") === "on"){
-                                current.value = "true";
-                            }else{
-                                current.value = "false";
-                            }
-                            break;
-                        default:
-                            current.value = current.field.getAttribute("data-value");
-                            current.info = "data-value";
-                        break;
-                    }
+                    console.log("field creation");
+                    console.log(current.field.value);
 
+                    current.value = current.field.value;
+                    
                     /*dd/sd Management*/
 
 
@@ -198,18 +186,7 @@ const BaseSVGField = {
             this.linkAttr.forEach(attr => {
                 this.clearStatics(attr.sd, attr.value);
                 this.clearDynamics(attr.dd, attr.value);
-                if(attr.info === "data-state"){
-                    switch(attr.field.getAttribute(attr.info)){
-                        case "on":
-                            attr.value = "true";
-                            break;
-                        case "off":
-                            attr.value = "false";
-                            break;
-                    }
-                }else{
-                    attr.value = attr.field.getAttribute(attr.info);
-                }
+                attr.value = attr.field.value;
                 this.updateDynamics(attr.dd, attr.value);
                 this.updateStatics(attr.sd, attr.value);
             })
@@ -258,6 +235,7 @@ const BaseSVGField = {
     },
 
     focus(){
+        console.log(this.linkAttr);
         this.element.focus();
         this.focused = true;
         this.deciders.forEach(d => {

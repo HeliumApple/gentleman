@@ -700,6 +700,13 @@
                         ],
                         "default": "in-place"                        
                     }
+                },
+                {
+                    "name": "property",
+                    "target":{
+                        "name": "property"
+                    },
+                    "required": false
                 }
             ]
         },

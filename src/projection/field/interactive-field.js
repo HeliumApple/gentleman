@@ -11,6 +11,7 @@ import { StyleHandler } from "./../style-handler.js";
 import { StateHandler } from "./../state-handler.js";
 import { ContentHandler, resolveValue } from "./../content-handler.js";
 import { Field } from "./field.js";
+import { createNotificationMessage } from "./notification.js";
 
 const BaseInteractiveField = {
     /** @type {string} */
@@ -53,16 +54,15 @@ const BaseInteractiveField = {
 
         if(isNullOrUndefined(this.place)){
             this.place = this.content.querySelector("[data-" + source.marker + "]");
-            /*console.log(source.marker);
-            console.log(this.place);*/
+            console.log("Source");
+            console.log(source.marker);
+            console.log(this.place);
         }
 
 
         if((!isHTMLElement(this.field)) && (!isNullOrUndefined(source.tag))){
             source.type = "external";
             this.field = ContentHandler.call(this, source, null, this.args);
-
-
 
             switch (this.field.type){
                 case "text":
@@ -343,6 +343,7 @@ const BaseInteractiveField = {
 
     getContent(){
         if(!isHTMLElement(this.content)){
+            console.log(content);
             this.content = parser.parseFromString(content.replace(/\&nbsp;/g, ''), "image/svg+xml").documentElement;
         }
        return this.content;

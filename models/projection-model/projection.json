@@ -1849,7 +1849,29 @@
                      {
                          "type": "attribute",
                          "name": "placement"
-                     }
+                     },
+                     {
+                        "type": "attribute",
+                        "name": "property",
+                        "tag": "text",
+                        "placeholder": {
+                            "content": {
+                                "type": "static",
+                                "static": {
+                                    "type": "text",
+                                    "content": "Add Property",
+                                    "help": "The property will define the information used from field-value",
+                                    "style": {
+                                        "css": ["field-config-option", "font-ui"],
+                                        "ref": ["box-top"]
+                                    }
+                                }
+                            }
+                        },
+                        "style": {
+                            "ref": ["box-top"]
+                        }
+                    }
                  ]
             }
         },
