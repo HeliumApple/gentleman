@@ -511,12 +511,12 @@ const actionHandler = {
             instance.delete();
         }*/
             
-        let instance = editor.createInstance(concept, projection, {
+       /* let instance = editor.createInstance(concept, projection, {
             type: "projection",
             close: "DELETE-PROJECTION"
         });
 
-        window.addInstance(instance);
+        window.addInstance(instance);*/
     }/*,
     "add annotation old":function(editor) {
         if(editor.subEditor==null){

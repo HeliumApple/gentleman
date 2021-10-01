@@ -7,6 +7,8 @@ import { show, hide, toggle, collapse, expand, NotificationType, makeResizable }
 
 var inc = 0;
 const nextInstanceId = () => `instance${inc++}`;
+const AnnotationName = "annotation";
+const WindowName = "side-instance";
 
 export const EditorInstanceManager = {
     /**
@@ -43,9 +45,12 @@ export const EditorInstanceManager = {
         }, _options);
 
         instance.init(options);
-
+        console.log(instance.concept.schema.name);
         this.addInstance(instance);
-
+        if(instance.concept.schema.name==AnnotationName){
+            let window = this.findWindow(WindowName);
+            window.addInstance(instance);
+        }
         return instance;
     },
     /**
