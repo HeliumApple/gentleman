@@ -8,10 +8,11 @@ import { buildConceptHandler } from "@generator/build-concept.js";
 //import { Gentleman } from "@dist/gentleman.core";
 
 const annotation = "annotation-model";
+const LFol = ["annotation-model","trafficlight-model"];
 
-const ANNOTATION__CONCEPT = require(`@models/${annotation}/concept.json`);
+/*const ANNOTATION__CONCEPT = require(`@models/${annotation}/concept.json`);
 const ANNOTION__PROJECTION = require(`@models/${annotation}/projection.json`);
-const ANNOTATION_CONFIG = require(`@models/${annotation}/config.json`);
+const ANNOTATION_CONFIG = require(`@models/${annotation}/config.json`);*/
 
 const CMODEL__EDITOR = require('@models/concept-model/config.json');
 const CMODEL__CONCEPT = require('@models/concept-model/concept.json');
@@ -142,6 +143,8 @@ export const App = {
     createEditor(options) {
         let editor = Gentleman.createEditor().init(options);
         editor.AnnotationProjectionLoaded=0;
+        editor. modelAdded=0;
+        editor.projAdded=0;
         editor.id = nextId();
         this.editors.push(editor);
         this.editorSection.append(editor.container);
@@ -477,47 +480,47 @@ const actionHandler = {
         console.log("======end concepts=========\n");
     },
     "add annotation": function(editor) {
+       // editor.enableAnnotation();
+    
         if(editor.AnnotationProjectionLoaded!=1){
-            editor.addProjection(ANNOTION__PROJECTION);
-            editor.addConcept(ANNOTATION__CONCEPT);
+            for(var count=0;count<LFol.length;count++){
+            //for(var count=LFol.length-1;count>=0;count--){
+                var annotationSec=LFol[count];
+                const ANNOTATION__CONCEPT = require(`@models/annotations/${annotationSec}/concept.json`);
+                const ANNOTION__PROJECTION = require(`@models/${annotationSec}/projection.json`);
+                const ANNOTATION_CONFIG = require(`@models/${annotationSec}/config.json`);
+                editor.addProjection(ANNOTION__PROJECTION);
+                editor.addConcept(ANNOTATION__CONCEPT);
+                ANNOTATION_CONFIG.concepts.forEach(concept => {
+                    editor.config.concepts.push(concept);
+            });
+            editor.refresh();
+            }
+            /*editor.addProjection(ANNOTION__PROJECTION);
+            editor.addConcept(require(`@models/${annotation}/concept.json`));
             ANNOTATION_CONFIG.concepts.forEach(concept => {
                 editor.config.concepts.push(concept);
-            });
+            });*/
         }
-        editor.AnnotationProjectionLoaded=1;
-        //to load the annotation meta-class, if desired.
-        //crash if no config is loaded
+        //editor.AnnotationProjectionLoaded=1;
 
-       // console.log("little hope");
-        //console.log(ANNOTATION_CONFIG);
-        //editor.addProjection(PMODEL_PROJ_MIND);
-        //editor.addConcept(CMODEL_CONC_MIND);
-        //let concept = editor.createConcept("mindmap");
-        //editor.addConcept(CMODEL__CONCEPT);
-        //editor.addProjection(CMODEL__PROJECTION);
-        //let concept = editor.createConcept("mindmap");
-        //let concept = editor.createConcept("annotation");
-        let concept = editor.createConcept("annotation");
-        let projection = editor.createProjection(concept);
+       // let concept = editor.createConcept("annotation");
+       // console.log(concept);
+       // let projection = editor.createProjection(concept);
 
         let window = editor.findWindow("side-instance");
         if (isNullOrUndefined(window)) {
             window = editor.createWindow("side-instance");
-        } 
+        }
 
-        //remove if want more concept at once
-        /*if (window.instances.size > 0) {
-            let instance = Array.from(window.instances)[0];
-            instance.delete();
-        }*/
             
-       /* let instance = editor.createInstance(concept, projection, {
+        /*let instance = editor.createInstance(concept, projection, {
             type: "projection",
             close: "DELETE-PROJECTION"
         });
 
         window.addInstance(instance);*/
-    }/*,
+    },  
     "add annotation old":function(editor) {
         if(editor.subEditor==null){
         let sousEditeur = this.createSubEditor({
@@ -542,7 +545,7 @@ const actionHandler = {
             console.log(editor.subEditor.conceptModel);
         }
     },
-    "load annotation":function(editor){}*/
+    "load annotation":function(editor){}
     
 };
 

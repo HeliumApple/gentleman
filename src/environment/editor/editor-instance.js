@@ -46,11 +46,16 @@ export const EditorInstanceManager = {
 
         instance.init(options);
         console.log(instance.concept.schema.name);
-        this.addInstance(instance);
         if(instance.concept.schema.name==AnnotationName){
+            console.log("(editor-instance)hello");
+            instance.editor.enableAnnotation();
             let window = this.findWindow(WindowName);
+            if(isNullOrUndefined(window)) {
+                window = this.createWindow("side-instance");
+            }
             window.addInstance(instance);
         }
+        this.addInstance(instance);
         return instance;
     },
     /**

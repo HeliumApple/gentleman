@@ -1,0 +1,66 @@
+oligopole
+    petit nbr d'entreprise
+    produit presque identique(pétrole)
+    ou différencié(voitures)
+
+degré de concentration:
+    mesures:
+        RC4 ratio de concentration fondé sur 4 entreprise
+        concurence parfaite: très bas
+        monopole:100
+    
+- H. indice Herfinahl-Hirschman
+    somme des parts(%), au carré, des 50 plus grandes entreprises
+        concerence parfaite exemple: (0.1)^2+(0.1)^2.....+(0.1)^2=0.5
+        monopole: (100)^2=10000
+        H: 0-1000
+            concurence trs vive
+        1000-1900
+            marché cocurentiel
+        1800+
+            marché concentré
+concurence monopolistique
+    très grand nombre de producteurs de produits différencié(substituts proche mais pas parfait)
+    pas de barrières à l'entré => pas de (pi) économique long terme
+    chaque entreprise: courbe de demande à pente négative
+    P> Cm ==> inefficasse
+    cependant, contreavantage:
+        différenciation/variations de produits
+        innovation perpetuelle
+    mais:
+        cout trs élevés
+
+
+oligopole:
+    quelque producteurs en concurrence
+    produits différenciés ou homogènes
+    barrières à l'entré
+        économies d'échelle
+    haute influence sur prix
+
+    =====
+    théorie des jeux
+        Von Newmann de Morgenstern(1944)
+        Nash
+        Élement de base:
+            règles de jeux
+            strats
+            gains
+        dilemne du prisonnier(équilibre de Nash est d'avouer pour les 2?)
+    
+        Eéquilibre de Nash
+        Nash: 
+            jeu non-coopératif(pas de coalitions) <- équilibre de Nash
+                équilibre de Nash:
+                    quand chacun choisi strats qui est la meilleur  compte tenu du choix de l'autre
+            jeu coopératif(formation de coalition est possible)
+
+
+oligopole à deux: le duopole
+    2 entreprises, le même produit(deux journeaux, deux taxis)
+    peuvent collaborer pour max profit(collusion)
+        cad limiter la production
+    une fois en collusion, peut respecter l'entente ou tricher
+    cout les mêmes pour chacun
+    fibt face à une demande totale de D
+        
