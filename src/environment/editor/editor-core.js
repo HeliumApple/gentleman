@@ -119,6 +119,10 @@ function createEditorLog() {
 
 export const Editor = {
     AnnotationProjectionLoaded: null,
+
+    modelAdded: null,
+    projAdded: null,
+
     /** @type {ConceptModel} */
     conceptModel: null,
     /** @type {ProjectionModel} */
@@ -197,6 +201,39 @@ export const Editor = {
     resources: null,
     /** @type {Map} */
     models: null,
+
+
+    enableAnnotation(){
+        console.log("(editor-core)enable annotation");
+        const annotation = "annotation-model";
+        const LFol = ["annotation-model","trafficlight-model"];
+    if(this.AnnotationProjectionLoaded!=1){
+        for(var count=0;count<LFol.length;count++){
+            console.log("(editor-core)adding stuff");
+            //for(var count=LFol.length-1;count>=0;count--){
+                var annotationSec=LFol[count];
+                const ANNOTATION__CONCEPT = require(`@models/annotations/${annotationSec}/concept.json`);
+                const ANNOTATION__PROJECTIONs = require(`@models/${annotationSec}/projection.json`);
+                const ANNOTATION_CONFIG = require(`@models/${annotationSec}/config.json`);
+                if(this.hasProjectionModel && this.projAdded==0) {this.addProjection(ANNOTATION__PROJECTIONs); this.projAdded=1;}
+                if(this.hasConceptModel && this.modelAdded==0) {this.addConcept(ANNOTATION__CONCEPT); this.modelAdded=1;}
+                //this.addProjection(ANNOTATION__PROJECTIONs);
+                //this.addConcept(ANNOTATION__CONCEPT);
+               // ANNOTATION_CONFIG.concepts.forEach(concept => {
+               //     this.config.concepts.push(concept);
+           // });
+            //this.refresh();
+        }
+        this.refresh();
+            console.log("(editor-core)I'm in");
+        }
+        //this.AnnotationProjectionLoaded=1;
+
+        let window = this.findWindow("side-instance");
+        if (isNullOrUndefined(window)) {
+            window = this.createWindow("side-instance");
+        }
+    },
 
     init(args = {}) {
         const { conceptModel, projectionModel, config = {}, handlers = {} } = args;
@@ -334,7 +371,6 @@ export const Editor = {
      * @param {string} name 
      * @returns {Concept}
      */
-    //here
     createConcept(name) {
         if (isNullOrUndefined(name)) {
             throw new TypeError("Missing argument: The 'name' is required to create a concept");
@@ -345,15 +381,6 @@ export const Editor = {
             return false;
         }
         let concept = this.conceptModel.createConcept(name);
-        //question: why doesn't this work?
-        //like RootConcept, doesn't save info
-        //allow to create reference, however
-        
-        //where is concept added to editor.ConceptModel
-        /*if((this.is_annotation!=1)&&(this.subEditor!=null)){
-            //prb here
-            this.subEditor.conceptModel.addConcept(concept);
-        }*/
         return concept;
     },
     /**
@@ -1230,7 +1257,18 @@ export const Editor = {
         }
 
         this.conceptModel.getRootConcepts().forEach(concept => {
+           // console.log("desc= ");
+            //console.log(concept.description);
+           // if(concept.description="annotation"){
+            //if(false){
+                console.log("(editor-core)it has one");
+                //console.log(this);
+                this.enableAnnotation();
+           // }
             this.createInstance(concept);
+            console.log("desc2= ");
+            console.log(concept.description);
+            //here to change annotation at loading
         });
 
         this.refresh();
