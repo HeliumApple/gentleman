@@ -45,17 +45,16 @@ export const EditorInstanceManager = {
         }, _options);
 
         instance.init(options);
-        console.log(instance.concept.schema.name);
+        this.addInstance(instance);
         if(instance.concept.schema.name==AnnotationName){
-            console.log("(editor-instance)hello");
-            instance.editor.enableAnnotation();
-            let window = this.findWindow(WindowName);
+            //instance.editor.enableAnnotation();
+            let window = this.findWindow("side-instance");
             if(isNullOrUndefined(window)) {
                 window = this.createWindow("side-instance");
             }
             window.addInstance(instance);
+            //return instance;
         }
-        this.addInstance(instance);
         return instance;
     },
     /**
