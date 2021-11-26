@@ -1,0 +1,10 @@
+annotation's projection does not display correctly if enabled from vanilla concept model
+
+several hard-coded values(name of annotation concept and folders in the annotations folder)
+    editor-core, editor-instance
+
+annotation languages loaded from the annotations folder are hard coded
+    list of folders inside the "annotations" folder is hard-coded in editor-core and editor-instance
+
+
+
