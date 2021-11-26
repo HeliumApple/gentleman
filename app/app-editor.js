@@ -482,49 +482,6 @@ const actionHandler = {
     "add annotation": function(editor) {
         editor.enableAnnotation();
         editor.AnnotationProjectionLoaded=1;
-       /* if(editor.AnnotationProjectionLoaded!=1){
-            console.log("inside");
-            for(var count=0;count<LFol.length;count++){
-            //for(var count=LFol.length-1;count>=0;count--){
-                var annotationSec=LFol[count];
-                const ANNOTATION__CONCEPT = require(`@models/annotations/${annotationSec}/concept.json`);
-                const ANNOTION__PROJECTION = require(`@models/annotations/${annotationSec}/projection.json`);
-                const ANNOTATION_CONFIG = require(`@models/annotations/${annotationSec}/config.json`);
-                editor.addProjection(ANNOTION__PROJECTION);
-                editor.addConcept(ANNOTATION__CONCEPT);
-                console.log("curr:");
-                console.log(ANNOTATION_CONFIG);
-                ANNOTATION_CONFIG.concepts.forEach(concept => {
-                    console.log("in add con");
-                    editor.config.concepts.push(concept);
-            });
-            console.log("hope");
-            editor.refresh();
-            }
-            editor.addProjection(ANNOTION__PROJECTION);
-            editor.addConcept(require(`@models/${annotation}/concept.json`));
-            ANNOTATION_CONFIG.concepts.forEach(concept => {
-                editor.config.concepts.push(concept);
-            });
-        }
-        //editor.AnnotationProjectionLoaded=1;
-
-       // let concept = editor.createConcept("annotation");
-       // console.log(concept);
-       // let projection = editor.createProjection(concept);*/
-
-        /*let window = editor.findWindow("side-instance");
-        if (isNullOrUndefined(window)) {
-            window = editor.createWindow("side-instance");
-        }
-
-            
-        /*let instance = editor.createInstance(concept, projection, {
-            type: "projection",
-            close: "DELETE-PROJECTION"
-        });
-
-        window.addInstance(instance);*/
     },  
     "add annotation old":function(editor) {
         if(editor.subEditor==null){
