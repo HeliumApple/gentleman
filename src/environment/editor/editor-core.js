@@ -24,7 +24,25 @@ import { EditorStatus } from './editor-status.js';
 var inc = 0;
 //const annotation = "annotation-model";
 //const LFol = ["annotation-model","trafficlight-model","mindmap-model"];
-const LFol = ["mindmap-model"];
+//const LFol = ["mindmap-model"];
+const LFol=[];
+const AnnoNames=[];
+
+const modelInfoteux = require(`@models/annotations/inf.json`);
+console.log("inside core");
+console.log(modelInfoteux)
+
+//put the names of the annotation language folder in LFol
+for(var count=0;count<modelInfoteux.folders.length;count++){
+    LFol.push(modelInfoteux.folders[count].name);
+}
+
+//put the names of the annotation language names in AnnoNames
+for(var count=0;count<modelInfoteux.annoname.length;count++){
+    AnnoNames.push(modelInfoteux.annoname[count].name);
+}
+
+//const AnnotationName=modelInfo.annoname;
 
 const nextValueId = () => `value${inc++}`;
 
@@ -121,10 +139,14 @@ function createEditorLog() {
 
 
 export const Editor = {
+    //if it applies, has the annotation projection been loaded?
     AnnotationProjectionLoaded: null,
-
+    //has the model  been added to the editor?
     modelAdded: null,
+    //has the projection been added to the editor?
     projAdded: null,
+    //has the config  been added to the editor?
+    configAdded: null,
 
     /** @type {ConceptModel} */
     conceptModel: null,
@@ -205,14 +227,16 @@ export const Editor = {
     /** @type {Map} */
     models: null,
 
+    //add the projections of the annotation languages to the editor
     enableAnnotationProjection(){
         for(var count=0;count<LFol.length;count++){
             var annotationSec=LFol[count];
-            const ANNOTATION__PROJECTIONs = require(`@models/${annotationSec}/projection.json`);
+            const ANNOTATION__PROJECTIONs = require(`@models/annotations/${annotationSec}/projection.json`);
             this.addProjection(ANNOTATION__PROJECTIONs);
         }
     },
 
+    //add the concepts of the annotation languages to the editor
     enableAnnotationConcept(){
         for(var count=0;count<LFol.length;count++){
             var annotationSec=LFol[count];
@@ -221,24 +245,34 @@ export const Editor = {
         }
     },
 
+    enableAnnotationConfigs(){
+        for(var count=0;count<LFol.length;count++){
+            var annotationSec=LFol[count];
+            const ANNOTATION__CONCEPT = require(`@models/annotations/${annotationSec}/config.json`);
+            this.addConfig(ANNOTATION__CONCEPT);
+        }    
+    },
+
+    //load the annotation languages in the editor
     enableAnnotation(){
-        console.log("(editor-core,enable annotation)enable annotation");
+    console.log("(editor-core,enable annotation)enable annotation");
     if(this.AnnotationProjectionLoaded!=1){
         for(var count=0;count<LFol.length;count++){
-                var annotationSec=LFol[count];
-                const ANNOTATION_CONFIG = require(`@models/${annotationSec}/config.json`);
-               if(this.hasProjectionModel && this.projAdded==0) {this.enableAnnotationProjection(); this.projAdded=1;}
-               if(this.hasConceptModel && this.modelAdded==0) {this.enableAnnotationConcept(); this.modelAdded=1;}
-                ANNOTATION_CONFIG.concepts.forEach(concept => {
-                   this.config.concepts.push(concept);
-                   console.log("concept:");
-                    console.log(concept);
-            });
-            console.log("stop");
-            this.refresh();
+            //var annotationSec=LFol[count];
+            //const ANNOTATION_CONFIG = require(`@models/annotations/${annotationSec}/config.json`);
+            if(this.hasProjectionModel && this.projAdded==0) {this.enableAnnotationProjection(); this.projAdded=1;}
+            if(this.hasConceptModel && this.modelAdded==0) {this.enableAnnotationConcept(); this.modelAdded=1;}
+            if(this.hasConfig && this.configAdded==0) { this.enableAnnotationConfigs(); this.configAdded=1;}
+            /*ANNOTATION_CONFIG.concepts.forEach(concept => {
+                this.config.concepts.push(concept);
+                console.log("concept:");
+                //console.log(concept);
+            });*/
+            //console.log("stop");
+            //this.refresh();
         }
         }
-        //this.AnnotationProjectionLoaded=1;
+        this.AnnotationProjectionLoaded=1;
 
         let window = this.findWindow("side-instance");
         if (isNullOrUndefined(window)) {
@@ -249,7 +283,11 @@ export const Editor = {
     init(args = {}) {
         const { conceptModel, projectionModel, config = {}, handlers = {} } = args;
         //const annotations = args[0];
+        //this.config=[];
+        //bug from here?
+        // = does pointer, not new object?
         this.config = config;
+        //this.config = JSON.parse(JSON.stringify(config));
         this.handlers = new Map();
         this.instances = new Map();
         this.windows = new Map();
@@ -400,7 +438,6 @@ export const Editor = {
      */
     addConcept($schema) {
         let schema = $schema.concept || $schema;
-
         if (Array.isArray(schema)) {
             this.conceptModel.schema.push(...schema);
             //this.annotations.schema.push(...schema);
@@ -410,6 +447,12 @@ export const Editor = {
         }
 
         this.refresh();
+    },
+
+    addConfig($schema){
+        $schema.concepts.forEach(concept => {
+            this.config.concepts.push(concept);
+        });
     },
 
     // Model projection operations
@@ -1268,7 +1311,9 @@ export const Editor = {
         }
 
         this.conceptModel.getRootConcepts().forEach(concept => {
-            if(concept.description=="annotation"){
+            //if(concept.description==AnnotationName){
+            //if the concept to be added is an annotation, the annotation languages are loaded
+            if(AnnoNames.includes(concept.description)) {
                 this.enableAnnotation();
             }
             this.createInstance(concept);

@@ -1,0 +1,1 @@
+{"projection":[{"id":"c3afd985-560d-436f-927d-ba23414a5e6c","concept":{"name":"ddecision"},"tags":[],"type":"field","content":{"type":"text","readonly":false,"disabled":false,"multiline":false,"resizable":false,"input":{"type":"text","placeholder":"testing"}}}]}

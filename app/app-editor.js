@@ -5,6 +5,7 @@ import {
 import { duplicateTab } from "@utils";
 import { buildProjectionHandler } from "@generator/build-projection.js";
 import { buildConceptHandler } from "@generator/build-concept.js";
+import { config } from "chai";
 //import { Gentleman } from "@dist/gentleman.core";
 
 //const annotation = "annotation-model";
@@ -25,7 +26,7 @@ const PMODEL__EDITOR = require('@models/projection-model/config.json');
 const PMODEL__CONCEPT = require('@models/projection-model/concept.json');
 const PMODEL__PROJECTION = require('@models/projection-model/projection.json');
 
-const PMODEL_PROJ_MIND = require(`@models/mindmap-model/projection.json`);
+const CMODEL_PROJ_MIND = require(`@models/mindmap-model/projection.json`);
 const CMODEL_CONC_MIND = require(`@models/mindmap-model/concept.json`);
 const CMODEL_CONF_MIND = require(`@models/mindmap-model/config.json`);
 
@@ -143,8 +144,9 @@ export const App = {
     createEditor(options) {
         let editor = Gentleman.createEditor().init(options);
         editor.AnnotationProjectionLoaded=0;
-        editor. modelAdded=0;
+        editor.modelAdded=0;
         editor.projAdded=0;
+        editor.configAdded=0;
         editor.id = nextId();
         this.editors.push(editor);
         this.editorSection.append(editor.container);
@@ -329,23 +331,21 @@ export const App = {
             const { action } = target.dataset;
 
             if (action === "new") {
-                this.createEditor();
-                //console.log("hellO!");
+                editor = this.createEditor();
             } else if (action === "new-metamodel") {
+                const CMODEL_PROJ_MIND = new require(`@models/mindmap-model/projection.json`);
+                const CMODEL_CONC_MIND = new require(`@models/mindmap-model/concept.json`);
+                const CMODEL_CONF_MIND = require(`@models/mindmap-model/config.json`);
+
+                const anno_test_proj = new require(`@models/annotations/annotation-model/projection.json`);
+                const anno_test_con = new require(`@models/annotations/annotation-model/concept.json`);
+                const anno_test_config = require(`@models/annotations/annotation-model/config.json`);
                 //console.log("hi");
                 let editor = this.createEditor({
-                    /*conceptModel: CMODEL__CONCEPT,
-                    projectionModel: CMODEL__PROJECTION,
-                    config: CMODEL__EDITOR,*/
-                    /*conceptModel: ANnotation__CONCEPT,
-                    projectionModel: ANNOTION__PROJECTION,
-                    config: ANNOTATION_CONFIG,*/
                     conceptModel: CMODEL_CONC_MIND,
-                    projectionModel: PMODEL_PROJ_MIND,
+                    projectionModel: CMODEL_PROJ_MIND,
                     config: CMODEL_CONF_MIND
                 });
-
-               // let BtnDEBUG = createMenuButton.call(this, "showConfig", "DEBUG: SHOW CONFIG", editor);
                 let btnBuild = createMenuButton.call(this, "build-concept", "Build", editor);
                 editor.header.menu.append(btnBuild);
 
@@ -362,7 +362,6 @@ export const App = {
 
                 let btnBuild = createMenuButton.call(this, "build-projection", "Build", editor);
                 let btnPreview = createMenuButton.call(this, "preview-projection", "Preview", editor);
-                //let BtnDEBUG = createMenuButton.call(this, "showConfig", "DEBUG: SHOW CONFIG", editor);
 
                 editor.header.menu.append(btnBuild, btnPreview);
             }
@@ -467,11 +466,13 @@ const actionHandler = {
             projection: pmodel
         });
     },
+    //DEBUG: print the list of the configs loaded in the editors
     "showConfig": function(editor){
         console.log("======config======");
         console.log(editor.config);
         console.log("===end config====\n");
     },
+    //DEBUG: print the list of the concepts loaded in the editor
     "showConcept": function(editor){
         console.log("======concepts=========");
         editor.conceptModel.getConcepts().forEach(concept => {
@@ -479,6 +480,7 @@ const actionHandler = {
         })
         console.log("======end concepts=========\n");
     },
+    //enable the annotation languages
     "add annotation": function(editor) {
         editor.enableAnnotation();
         editor.AnnotationProjectionLoaded=1;

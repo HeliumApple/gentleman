@@ -7,8 +7,22 @@ import { show, hide, toggle, collapse, expand, NotificationType, makeResizable }
 
 var inc = 0;
 const nextInstanceId = () => `instance${inc++}`;
-const AnnotationName = "annotation";
+
+//json file indicating the names and folders of the annotation languages
+const modelInfo = require(`@models/annotations/inf.json`);
+console.log("hoping this:");
+console.log(modelInfo);
+//const AnnotationName=modelInfo.annoname;
 const WindowName = "side-instance";
+
+//const AnnoNames=[];
+const AnnonationsNames=[];
+
+//put the names of the annotation language folder in LFol
+for(var count=0;count<modelInfo.annoname.length;count++){
+    AnnonationsNames.push(modelInfo.annoname[count].name);
+}
+
 
 export const EditorInstanceManager = {
     /**
@@ -46,7 +60,9 @@ export const EditorInstanceManager = {
 
         instance.init(options);
         this.addInstance(instance);
-        if(instance.concept.schema.name==AnnotationName){
+       // if(instance.concept.schema.name==AnnotationName){
+        //if the instance is an annotation, put it on the side
+        if(AnnonationsNames.includes(instance.concept.schema.name)){
             //instance.editor.enableAnnotation();
             let window = this.findWindow("side-instance");
             if(isNullOrUndefined(window)) {

@@ -2,9 +2,10 @@ annotation's projection does not display correctly if enabled from vanilla conce
 
 several hard-coded values(name of annotation concept and folders in the annotations folder)
     editor-core, editor-instance
+fixed: name of annotation concept and the folders in the annotations folder are now defined in a json file
+(models/annotations/inf.json)
 
-annotation languages loaded from the annotations folder are hard coded
-    list of folders inside the "annotations" folder is hard-coded in editor-core and editor-instance
+
 
 
 
