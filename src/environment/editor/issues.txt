@@ -1,12 +1,7 @@
-annotation's projection does not display correctly if enabled from vanilla concept model
+If the "concept-model"'s projection is loaded before the "annotation-model"'s projection, then the last one is not loaded in the editor
+Applies wether the projection was loaded when initiating the editor(before enabling the annotations) or while loading the annotations languages
 
-several hard-coded values(name of annotation concept and folders in the annotations folder)
-    editor-core, editor-instance
-
-annotation languages loaded from the annotations folder are hard coded
-    list of folders inside the "annotations" folder is hard-coded in editor-core and editor-instance
-
-Config should be loaded from a function the same way the projections and models are is editor-core
+===========
 
 annotation concepts does not allow a reference to any concept 
     Likely to be caused by the concept.json file

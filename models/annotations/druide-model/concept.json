@@ -1,0 +1,136 @@
+{
+    "concept": [
+        {
+            "id": "e9231dd7-fdaa-4851-aece-96b1eeb26497",
+            "name": "duncertainty",
+            "description": null,
+            "nature": "concrete",
+            "attributes": [
+                {
+                    "name": "description",
+                    "target": {
+                        "name": "string"
+                    },
+                    "required": true,
+                    "description": null
+                }
+            ],
+            "properties": []
+        },
+        {
+            "id": "e6307371-6564-4b25-9a67-66d90cb83afa",
+            "name": "dundeterminacysource",
+            "description": null,
+            "nature": "concrete",
+            "attributes": [
+                {
+                    "name": "description",
+                    "target": {
+                        "name": "string"
+                    },
+                    "required": true,
+                    "description": null
+                },
+                {
+                    "name": "nature",
+                    "target": {
+                        "name": "string",
+                        "default": "InsufficientResolution",
+                        "constraint": {
+                            "values": [
+                                "InsufficientResolution",
+                                "Missinginformation",
+                                "NonDeterminism",
+                                "Composite",
+                                "Unclassified"
+                            ]
+                        }
+                    },
+                    "required": true,
+                    "description": null
+                },
+                {
+                    "name": "level",
+                    "target": {
+                        "name": "string",
+                        "default": "RecognizedIgnorance",
+                        "constraint": {
+                            "values": [
+                                "RecognizedIgnorance",
+                                "ScenarioUncertainty",
+                                "StatisticalDistribution"
+                            ]
+                        }
+                    },
+                    "required": true,
+                    "description": null
+                }
+            ],
+            "properties": []
+        },
+        {
+            "id": "3296e4f9-29df-4bce-873e-d354c5fdd278",
+            "name": "ddecision",
+            "description": null,
+            "nature": "concrete",
+            "attributes": [
+                {
+                    "name": "question",
+                    "target": {
+                        "name": "string"
+                    },
+                    "required": true,
+                    "description": null
+                },
+                {
+                    "name": "allowedpartiality",
+                    "target": {
+                        "name": "string",
+                        "default": "MAY",
+                        "constraint": {
+                            "length": {
+                                "type": "fixed",
+                                "fixed": {}
+                            },
+                            "values": [
+                                "MAY",
+                                "ABS",
+                                "VAR",
+                                "OW"
+                            ]
+                        }
+                    },
+                    "required": true,
+                    "description": null
+                },
+                {
+                    "name": "resolved",
+                    "target": {
+                        "name": "boolean",
+                        "default": false
+                    },
+                    "required": true,
+                    "description": null
+                }
+            ],
+            "properties": []
+        },
+        {
+            "id": "fee7a875-717b-4861-afde-3403ed7fe294",
+            "name": "ddependencyformula",
+            "description": null,
+            "nature": "concrete",
+            "attributes": [
+                {
+                    "name": "formula",
+                    "target": {
+                        "name": "string"
+                    },
+                    "required": true,
+                    "description": null
+                }
+            ],
+            "properties": []
+        }
+    ]
+}
