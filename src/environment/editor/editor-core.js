@@ -286,8 +286,8 @@ export const Editor = {
         //this.config=[];
         //bug from here?
         // = does pointer, not new object?
-        this.config = config;
-        //this.config = JSON.parse(JSON.stringify(config));
+        //this.config = config;
+        this.config = JSON.parse(JSON.stringify(config));
         this.handlers = new Map();
         this.instances = new Map();
         this.windows = new Map();

@@ -1,8 +1,0 @@
-If the "concept-model"'s projection is loaded before the "annotation-model"'s projection, then the last one is not loaded in the editor
-Applies wether the projection was loaded when initiating the editor(before enabling the annotations) or while loading the annotations languages
-
-===========
-
-annotation concepts does not allow a reference to any concept 
-    Likely to be caused by the concept.json file
-
