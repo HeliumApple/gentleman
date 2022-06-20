@@ -1,7 +1,7 @@
 {
     "annoname": [
         {
-            "name":"concrete concept"
+            "name":"concrete concept_second"
         },
         {
             "name": "trafficlight"
@@ -13,16 +13,10 @@
     ],
     "folders": [
         {
-            "name": "trafficlight-model"
+            "name":"annotation-model"
         },
         {
-            "name":"concept-model"
-        },
-        {
-            "name": "trafficlight2-model"
-        },
-        {   
-            "name": "annotation-model"
+            "name":"trafficlight-model"
         }
     ]
 }

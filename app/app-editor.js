@@ -342,9 +342,9 @@ export const App = {
                 const anno_test_config = require(`@models/annotations/annotation-model/config.json`);
                 //console.log("hi");
                 let editor = this.createEditor({
-                    conceptModel: CMODEL_CONC_MIND,
-                    projectionModel: CMODEL_PROJ_MIND,
-                    config: CMODEL_CONF_MIND
+                    conceptModel: CMODEL__CONCEPT,
+                    projectionModel: CMODEL__PROJECTION,
+                    config: CMODEL__EDITOR
                 });
                 let btnBuild = createMenuButton.call(this, "build-concept", "Build", editor);
                 editor.header.menu.append(btnBuild);

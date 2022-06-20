@@ -111,7 +111,8 @@ export const EditorHome = {
         this.projectionFileIO.setFile(hasProjectionModel ? "file" : null);
         //this.annotationFileIO.setFile(hasAnnotationModel ? "file" : null);
 
-        this.btnStart.disabled = !(hasConceptModel && hasProjectionModel && hasConfig);
+        this.btnStart.disabled = !(hasConceptModel && hasProjectionModel);
+        //this.btnStart.disabled = (false && (hasConceptModel && hasProjectionModel && hasConfig));
 
         return this;
     },
