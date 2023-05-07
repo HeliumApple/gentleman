@@ -1,11 +1,1 @@
-annotation's projection does not display correctly if enabled from vanilla concept model
-
-several hard-coded values(name of annotation concept and folders in the annotations folder)
-    editor-core, editor-instance
-fixed: name of annotation concept and the folders in the annotations folder are now defined in a json file
-(models/annotations/inf.json)
-
-
-
-
-
+model's concept's file must be loaded before the projection file

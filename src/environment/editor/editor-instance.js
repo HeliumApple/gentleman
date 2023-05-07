@@ -10,12 +10,8 @@ const nextInstanceId = () => `instance${inc++}`;
 
 //json file indicating the names and folders of the annotation languages
 const modelInfo = require(`@models/annotations/inf.json`);
-console.log("hoping this:");
-console.log(modelInfo);
-//const AnnotationName=modelInfo.annoname;
 const WindowName = "side-instance";
 
-//const AnnoNames=[];
 const AnnonationsNames=[];
 
 //put the names of the annotation language folder in LFol
@@ -60,16 +56,13 @@ export const EditorInstanceManager = {
 
         instance.init(options);
         this.addInstance(instance);
-       // if(instance.concept.schema.name==AnnotationName){
         //if the instance is an annotation, put it on the side
         if(AnnonationsNames.includes(instance.concept.schema.name)){
-            //instance.editor.enableAnnotation();
             let window = this.findWindow("side-instance");
             if(isNullOrUndefined(window)) {
                 window = this.createWindow("side-instance");
             }
             window.addInstance(instance);
-            //return instance;
         }
         return instance;
     },
